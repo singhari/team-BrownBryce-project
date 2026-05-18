@@ -12,7 +12,7 @@ const quotes = [
   "Healing takes time — keep going [name]!",
   "Small progress is still progress [name]!",
 ];
-
+// challenges written below
 const challenges = [
   "Drink a glass of water before scrolling",
   "Step outside for a short walk in the sun",
