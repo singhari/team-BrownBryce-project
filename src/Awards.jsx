@@ -10,9 +10,9 @@ function Awards({ setPage, name }) {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    name = "_"
     const unsub = onAuthStateChanged(auth, async (user) => {
       setLoggedIn(!!user);
+
       if (!user) {
         setItems([]);
         setLoading(false);
@@ -20,23 +20,35 @@ function Awards({ setPage, name }) {
       }
 
       setLoading(true);
+
       try {
-        const q = query(collection(db, "awards"), where("userId", "==", user.uid));
+        const q = query(
+          collection(db, "awards"),
+          where("userId", "==", user.uid)
+        );
+
         const snap = await getDocs(q);
-        const rows = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+
+        const rows = snap.docs.map((d) => ({
+          id: d.id,
+          ...d.data(),
+        }));
+
         rows.sort((a, b) => {
           const ta = a.earnedAt?.toMillis?.() ?? 0;
           const tb = b.earnedAt?.toMillis?.() ?? 0;
           return tb - ta;
         });
+
         setItems(rows);
       } catch (e) {
-        console.error("Error adding document", e);
+        console.error(e);
         setItems([]);
       } finally {
         setLoading(false);
       }
     });
+
     return () => unsub();
   }, []);
 
@@ -45,34 +57,77 @@ function Awards({ setPage, name }) {
     return ts.toDate().toLocaleString();
   }
 
+  const displayName = name || "User";
+
   return (
     <div className="awards-page">
-      <h1 className="awards-title">Awards</h1>
-      <p className="awards-sub">
-        {name}, day 1 through day 30 on your streak (from the daily log).
-      </p>
 
+      {/* HEADER */}
+      <div className="awards-header">
+        <h1 className="awards-title">Awards</h1>
+        <p className="awards-sub">
+          {displayName}, your progress milestones and streak rewards.
+        </p>
+      </div>
+
+      {/* STATES */}
       {loading ? (
-        <p>Loading...</p>
+        <div className="awards-state">Loading awards...</div>
       ) : !loggedIn ? (
-        <p>Sign in with Google to see your awards.</p>
+        <div className="awards-state">Sign in to view awards.</div>
       ) : items.length === 0 ? (
-        <p>No awards yet. Go to Daily Log, journal, then claim reward.</p>
+        <div className="awards-state">
+          No awards yet — keep journaling to unlock your first badge.
+        </div>
       ) : (
         <div className="awards-grid">
-          {items.map((a) => (
-            <div key={a.id} className="award-badge">
-              <img src={a.imageUrl} className="award-badge-img" />
-              <p className="award-badge-details">{a.details}</p>
-              <p className="award-badge-meta">{formatEarned(a.earnedAt)}</p>
+
+          {items.map((a, index) => (
+            <div key={a.id} className="award-card">
+
+              {/* STAR BADGE */}
+              <div className="award-image-wrap">
+
+                <img
+                  src={a.imageUrl}
+                  className="award-img"
+                  alt="award badge"
+                />
+
+                {/* NUMBER OVERLAY (FIX FOR READABILITY) */}
+                <div className="award-number">
+                  {a.day ?? index + 1}
+                </div>
+
+              </div>
+
+              {/* TEXT */}
+              <div className="award-content">
+                <p className="award-details">
+                  {a.details}
+                </p>
+
+                <p className="award-meta">
+                  {formatEarned(a.earnedAt)}
+                </p>
+              </div>
+
             </div>
           ))}
+
         </div>
       )}
 
-      <button type="button" className="small-btn awards-back" onClick={() => setPage("home")}>
-        Back to home
-      </button>
+      {/* FOOTER */}
+      <div className="awards-footer">
+        <button
+          className="primary-btn"
+          onClick={() => setPage("home")}
+        >
+          Back to Dashboard
+        </button>
+      </div>
+
     </div>
   );
 }
