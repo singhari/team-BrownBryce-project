@@ -1,13 +1,27 @@
 import { useState } from "react";
 import "./Motivation.css";
 
-// Would like feature: Make a JSON or CSV file for these that is called, keep it seperate from the code itself
 const quotes = [
   "You're doing great [name]!",
   "Keep reaching for the stars [name]!",
   "Your addiction does not define you [name]!",
   "Recovery takes time [name]!",
-  "Your future depends on what you do today [name]!"
+  "Discipline creates freedom [name]!",
+  "You are stronger than your urges [name]!",
+  "Your future self will thank you [name]!",
+  "Healing takes time — keep going [name]!",
+  "Small progress is still progress [name]!",
+];
+// challenges written below
+const challenges = [
+  "Drink a glass of water before scrolling",
+  "Step outside for a short walk in the sun",
+  "Do 10 slow deep breaths",
+  "Write down how you feel right now",
+  "Read a book or take a shower to refresh your mind",
+  "Talk to a friend or family member",
+  "Cook a meal to eat for yourself",
+  "Take a nap or rest your eyes for 15 minutes",
 ];
 
 function Motivation({ setPage, name = "friend" }) {
@@ -15,55 +29,121 @@ function Motivation({ setPage, name = "friend" }) {
     quotes[Math.floor(Math.random() * quotes.length)]
   );
 
+  const [urgeMode, setUrgeMode] = useState(false);
+
   const generateQuote = () => {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     setQuote(quotes[randomIndex]);
   };
 
+  const randomChallenge =
+    challenges[Math.floor(Math.random() * challenges.length)];
+
   return (
     <div className="motivation-page">
 
-      <div className="header">
-        <h1>Motivation</h1>
-      </div>
+      {/* normal */}
+      {!urgeMode && (
+        <>
+          <div className="motivation-header">
+            <h1>Motivation</h1>
 
-      <h2 className="subtitle">
-        {quote.replaceAll("[name]", name)}
-      </h2>
+            <p className="motivation-subtitle">
+              {quote.replaceAll("[name]", name)}
+            </p>
+          </div>
 
-      <button onClick={generateQuote}>
-        Generate new quote
-      </button>
+          <div className="motivation-actions-top">
 
-      <p>You got some rewards</p>
+            <button className="primary-btn" onClick={generateQuote}>
+              New Quote
+            </button>
 
-      <button type="button" onClick={() => setPage("awards")}>
-        View rewards
-      </button>
+            <button className="small-btn" onClick={() => setPage("awards")}>
+              View Rewards
+            </button>
 
-      <div className="content">
+            <button
+              className="small-btn"
+              onClick={() => setUrgeMode(true)}
+            >
+              I’m having an urge
+            </button>
 
-        <div className="reward-card">
-          <h3>You got some awards!</h3>
-          <button type="button" className="view-btn" onClick={() => setPage("awards")}>
-            View awards
-          </button>
+          </div>
+
+          <div className="motivation-content">
+
+            <div className="card motivation-card">
+
+              <h3>Last Check-In</h3>
+
+              <p className="muted-text">
+                Keep journaling daily — even small entries matter.
+              </p>
+
+              <button
+                className="primary-btn"
+                onClick={() => setPage("log")}
+              >
+                Go to Journal
+              </button>
+
+            </div>
+
+            <div className="motivation-side">
+
+              <button
+                className="small-btn"
+                onClick={() => setPage("calendar")}
+              >
+                Check Calendar
+              </button>
+
+              <button
+                className="small-btn"
+                onClick={() => setPage("home")}
+              >
+                Back Home
+              </button>
+
+            </div>
+
+          </div>
+        </>
+      )}
+
+      {/* overlay */}
+      {urgeMode && (
+        <div className="urge-overlay">
+
+          <div className="urge-box card">
+
+            <h2>It will pass.</h2>
+
+            <p>
+              You don’t need to act on this feeling right now.
+              Just pause for a moment.
+            </p>
+
+            <div className="challenge-box">
+              Distract yourself by doing this task:
+              <br />
+              <strong>{randomChallenge}</strong>
+            </div>
+
+            <button
+              className="primary-btn"
+              onClick={() => setUrgeMode(false)}
+            >
+              I’m okay now
+            </button>
+
+          </div>
+
         </div>
+      )}
 
-        <div className="side-buttons">
-          <button type="button" className="calendar-btn" onClick={() => setPage("calendar")}>
-            Check calendar
-          </button>
-
-          <button
-            className="back-btn"
-            onClick={() => setPage("home")}
-          >
-            Back to home
-          </button>
-        </div>
-
-      </div>
     </div>
   );
 }

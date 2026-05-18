@@ -1,73 +1,93 @@
-import AddictionSelection from "./AddictionSelection"
-import ReasonSelection from "./ReasonSelection"
-import App from "./App"
+import AddictionSelection from "./AddictionSelection";
+import ReasonSelection from "./ReasonSelection";
+import App from "./App";
 import "./Reason.css";
-import { useEffect, useState } from "react";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "./firebase";
-import { streakIsActive } from "./streakUtils";
 
-function Reasons(){
-  const [currentAddiction, setCurrentAddiction] = useState("");
-  const [currentQuitReason, setCurrentQuitReason] = useState("");
+import { useState } from "react";
+
+function Reasons() {
+  const [currentAddiction, setCurrentAddiction] =
+    useState("Scrolling");
+
+  const [currentQuitReason, setCurrentQuitReason] =
+    useState("Not set yet");
+
   const [page, setPage] = useState("home");
-    if (page === "App") {
-        return <App setPage={setPage} />;
-      }
 
-      useEffect(() => {
-    const unsub = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        setCurrentAddiction("");
-        setCurrentQuitReason("");
-        return;
-      }
-      const snap = await getDoc(doc(db, "users", user.uid));
-      if (snap.exists) {
-        const data = snap.data();
-        setCurrentAddiction(typeof data.addiction === "string" ? data.addiction : "");
-        const q =
-          typeof data.quitReason === "string"
-            ? data.quitReason
-            : typeof data.reason === "string"
-              ? data.reason
-              : "";
-        setCurrentQuitReason(q);
-      } else {
-        setCurrentAddiction("");
-        setCurrentQuitReason("");
-      }
-    });
-    return () => unsub();
-  }, []);
+  if (page === "App") {
+    return <App setPage={setPage} />;
+  }
 
-    
   return (
-    <div className='banana'>
-      <h3>Personalize</h3>
-      <p>
-        Answer these quick questions to personalize your experience.
-      </p>
-      <AddictionSelection
-        initialAddiction={currentAddiction}
-        onAddictionSaved={setCurrentAddiction}
-      />
-      <strong>Your addiction:</strong>{currentAddiction}
-      <p>
-        {currentQuitReason ? currentQuitReason : "(not set yet)"}
-      </p>
-      <ReasonSelection
-        initialQuitReason={currentQuitReason}
-        onQuitReasonSaved={setCurrentQuitReason}
-      />
-        <strong>Your reason to quit:</strong>{currentQuitReason}
+    <div className="banana">
 
-        <button onClick={() => setPage("App")} className="big-btn">
-          Go back home
-        </button>
+      {/* header */}
+      <div className="page-header">
+
+        <h1>Personalize Your Journey</h1>
+
+        <p>
+          Set up your recovery dashboard and personalize your
+          experience to stay motivated, build consistency,
+          and better understand your habits.
+        </p>
+
+      </div>
+
+      {/* main */}
+      <div className="selection-layout">
+
+        <AddictionSelection
+          initialAddiction={currentAddiction}
+          onAddictionSaved={setCurrentAddiction}
+        />
+
+        <ReasonSelection
+          initialQuitReason={currentQuitReason}
+          onQuitReasonSaved={setCurrentQuitReason}
+        />
+
+      </div>
+
+      {/* current */}
+      <div className="current-row">
+
+        <div className="current-box">
+
+          <div className="current-label">
+            Current addiction
+          </div>
+
+          <div className="current-value">
+            {currentAddiction}
+          </div>
+
         </div>
-    )
+
+        <div className="current-box">
+
+          <div className="current-label">
+            Reason to quit
+          </div>
+
+          <div className="current-value">
+            {currentQuitReason}
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* home */}
+      <button
+        onClick={() => setPage("App")}
+        className="big-btn"
+      >
+        Go Back Home
+      </button>
+
+    </div>
+  );
 }
 
 export default Reasons;

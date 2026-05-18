@@ -1,83 +1,161 @@
 .awards-page {
+  min-height: 100vh;
+
+  padding: 40px;
+
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+
+  background:
+    #f5f7fb;
+}
+
+/* HEADER */
+.awards-header {
   max-width: 1100px;
-  margin: 0 auto;
-  padding: 1.5rem;
+  margin: 0 auto 30px auto;
 }
 
 .awards-title {
-  margin: 0 0 0.5rem;
-  color: #08060d;
-}
-
-@media (prefers-color-scheme: dark) {
-  .awards-title {
-    color: #9ca3af;
-  }
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
 }
 
 .awards-sub {
-  color: #444;
-  margin-bottom: 1.5rem;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.5;
 }
 
+/* STATES */
+.awards-state {
+  max-width: 1100px;
+  margin: 40px auto;
+
+  padding: 24px;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  box-shadow: var(--shadow);
+
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* GRID */
 .awards-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 1.75rem 1.25rem;
-  justify-items: center;
+
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 20px;
 }
 
-.award-badge {
+/* CARD */
+.award-card {
+  background: var(--card);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  padding: 18px;
+
+  box-shadow: var(--shadow);
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
   text-align: center;
-  max-width: 160px;
+
+  transition: 0.25s ease;
 }
 
-.award-badge-img {
-  width: 140px;
-  height: 140px;
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-
+.award-card:hover {
+  transform: translateY(-5px);
 }
 
-.award-badge-title {
-  font-size: 0.95rem;
+.award-image-wrap {
+  width: 100px;
+  height: 100px;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 14px;
+}
+
+/* STAR BACKGROUND (IMPORTANT CHANGE) */
+.award-img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  /* THIS is the key fix: make it feel like a badge, not a square image */
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+
+  /* soften edges so it doesn't look blocky */
+  transform: scale(0.92);
+
+  filter: saturate(1.1) brightness(0.95);
+}
+
+
+/* DAY NUMBER (FIXED READABILITY ISSUE) */
+.award-number {
+  position: absolute;
+
+  font-size: 20px;
+  font-weight: 800;
+
+  color: white;
+
+  text-shadow: 0 2px 6px rgba(0,0,0,0.45);
+
+  pointer-events: none;
+}
+
+/* TEXT */
+.award-details {
+  font-size: 14px;
   font-weight: 600;
-  margin: 0.5rem 0 0.2rem;
-  color: #000;
-  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 6px;
 }
 
-.award-badge-details {
-  font-size: 0.75rem;
-  margin: 0;
-  color: #555;
-  line-height: 1.35;
+.award-meta {
+  font-size: 12px;
+  color: var(--muted);
 }
 
-.award-badge-meta {
-  font-size: 0.7rem;
-  margin: 0.35rem 0 0;
-  color: #888;
-}
+/* FOOTER */
+.awards-footer {
+  max-width: 1100px;
+  margin: 30px auto 0 auto;
 
-.awards-back {
-  margin-top: 1.5rem;
-}
-
-.claim-reward {
-  margin-top: 0.5rem;
-}
-
-.claim-reward-title {
-  font-weight: 600;
-  margin: 0 0 0.35rem;
-}
-
-.claim-reward-msg {
-  font-size: 0.9rem;
-  margin: 0 0 0.75rem;
-  line-height: 1.35;
+  display: flex;
+  justify-content: center;
 }
