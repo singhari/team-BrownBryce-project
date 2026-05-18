@@ -6,8 +6,6 @@
   font-family: "Inter", "Segoe UI", Arial, sans-serif;
 
   background:
-    radial-gradient(circle at top left, #ddd6fe, transparent 25%),
-    radial-gradient(circle at bottom right, #bfdbfe, transparent 25%),
     #f5f7fb;
 }
 
