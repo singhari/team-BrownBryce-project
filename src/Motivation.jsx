@@ -6,7 +6,22 @@ const quotes = [
   "Keep reaching for the stars [name]!",
   "Your addiction does not define you [name]!",
   "Recovery takes time [name]!",
-  "Your future depends on what you do today [name]!"
+  "Discipline creates freedom [name]!",
+  "You are stronger than your urges [name]!",
+  "Your future self will thank you [name]!",
+  "Healing takes time — keep going [name]!",
+  "Small progress is still progress [name]!",
+];
+// challenges written below
+const challenges = [
+  "Drink a glass of water before scrolling",
+  "Step outside for a short walk in the sun",
+  "Do 10 slow deep breaths",
+  "Write down how you feel right now",
+  "Read a book or take a shower to refresh your mind",
+  "Talk to a friend or family member",
+  "Cook a meal to eat for yourself",
+  "Take a nap or rest your eyes for 15 minutes",
 ];
 
 function Motivation({ setPage, name = "friend" }) {
