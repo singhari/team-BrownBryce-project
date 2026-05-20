@@ -1,6 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Log.css";
 import ClaimReward from "./Reward.jsx";
+import { auth, db } from "./firebase";
+
+import {
+  doc,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
+
+import {
+  formatLocalDate,
+  addDays,
+} from "./streakUtils";
 
 function DailyLog({ setPage }) {
   const [rewardRefresh, setRewardRefresh] = useState(0);
@@ -13,6 +25,14 @@ function DailyLog({ setPage }) {
     rating: 5,
   });
 
+  useEffect(() => {
+  const saved = localStorage.getItem("dailyLog");
+
+  if (saved) {
+    setAnswers(JSON.parse(saved));
+  }
+}, []);
+
   function handleChange(e) {
     const { name, value } = e.target;
 
@@ -22,15 +42,89 @@ function DailyLog({ setPage }) {
     }));
   }
 
-  function handleSave() {
-    
-    setRewardRefresh((k) => k + 1);
+  async function handleSave() {
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Sign in first.");
+    return;
   }
+
+  
+  if (
+    !answers.q1 ||
+    !answers.q2 ||
+    !answers.q3 ||
+    !answers.q4
+  ) {
+    alert("Please answer all questions first.");
+    return;
+  }
+
+  try {
+    const userRef = doc(db, "users", user.uid);
+
+    const snap = await getDoc(userRef);
+
+    const data = snap.exists() ? snap.data() : {};
+
+    const last = data.lastJournalDate;
+
+    const current =
+      typeof data.journalStreak === "number"
+        ? data.journalStreak
+        : 0;
+
+    const todayStr = formatLocalDate(new Date());
+
+    const yesterdayStr = formatLocalDate(
+      addDays(new Date(), -1)
+    );
+
+    
+    if (last === todayStr) {
+      alert("You already completed today's check-in.");
+      return;
+    }
+
+    let next;
+
+    if (!last) {
+      next = 1;
+    } else if (last === yesterdayStr) {
+      next = current + 1;
+    } else {
+      next = 1;
+    }
+
+    await setDoc(
+      userRef,
+      {
+        journalAnswers: answers,
+        journalStreak: next,
+        lastJournalDate: todayStr,
+      },
+      { merge: true }
+    );
+
+    localStorage.setItem(
+      "dailyLog",
+      JSON.stringify(answers)
+    );
+
+    alert(`Check-in saved! Your streak is ${next} day(s).`);
+
+    setRewardRefresh((k) => k + 1);
+  } catch (e) {
+    console.error(e);
+    alert("Could not save check-in.");
+  }
+}
 
   return (
     <div className="log-page">
 
-      {/* HEADER */}
+      {/* header */}
       <div className="log-header">
         <h1 className="title">Daily Journal Entry</h1>
 
@@ -40,10 +134,10 @@ function DailyLog({ setPage }) {
         </p>
       </div>
 
-      {/* MAIN CARD */}
+      {/* main card */}
       <div className="log-card">
 
-        {/* LEFT: QUESTIONS */}
+        {/* left side */}
         <div className="left">
 
           <div className="question">
@@ -81,14 +175,14 @@ function DailyLog({ setPage }) {
 
         </div>
 
-        {/* RIGHT: REWARD PANEL */}
+        {/* right side */}
         <div className="right">
           <ClaimReward refreshKey={rewardRefresh} />
         </div>
 
       </div>
 
-      {/* SAVE + NAV BUTTONS */}
+      {/* save and navigation buttons */}
       <div className="log-actions">
 
         <button className="save-btn" onClick={handleSave}>

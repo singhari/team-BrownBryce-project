@@ -86,7 +86,7 @@ export default function Calendar({ setPage }) {
       const start = startDate;
       const end = endDate;
   
-      // Use setDoc to create/overwrite a document named exactly after the UID
+      
       await setDoc(doc(db, "dateRanges", user.uid), {
         uid: user.uid,
         startDate,
@@ -155,13 +155,13 @@ export default function Calendar({ setPage }) {
 
         </div>
 
-        {/* DESCRIPTION */}
+        {/* description */}
         <p className="calendar-desc">
           Select a start date and an end date to define your tracking period and addiction quitting journey.
           This range is saved to your account and used to visualize and remember your progress.
         </p>
 
-        {/* BUTTON GROUP (FIXED SPACING) */}
+        {/* button group (fixed spacing) */}
         <div className="calendar-actions">
 
           <button className="big-btn" onClick={saveRange}>

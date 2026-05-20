@@ -1,36 +1,26 @@
 import { useState, useEffect } from "react";
-
 import { db, auth } from "./firebase";
-
 import { doc, setDoc } from "firebase/firestore";
 
 function AddictionSelection({
   initialAddiction = "",
   onAddictionSaved
 }) {
-
-  const [text, setText] = useState("");
+  const [text, setText] = useState(initialAddiction || "");
 
   useEffect(() => {
-    setText(initialAddiction);
+    setText(initialAddiction || "");
   }, [initialAddiction]);
 
   const handleSave = async () => {
     try {
-
       const user = auth.currentUser;
-
-      if (!user) {
-        alert("You are not logged in.");
-        return;
-      }
+      if (!user) return;
 
       const value = text.trim();
+      if (!value) return;
 
-      if (!value) {
-        alert("Please enter an addiction.");
-        return;
-      }
+      console.log("SAVING ADDICTION:", value);
 
       await setDoc(
         doc(db, "users", user.uid),
@@ -39,11 +29,8 @@ function AddictionSelection({
       );
 
       onAddictionSaved?.(value);
-
-      alert("Saved!");
-
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -52,46 +39,39 @@ function AddictionSelection({
 
       <h3>Select Your Addiction</h3>
 
-      <p>
-        Choose the habit you want to work on overcoming.
-      </p>
+      <p>Choose the habit you want to work on overcoming.</p>
 
-      {/* BUTTON GRID */}
       <div className="addiction-grid">
 
-        <button onClick={() => setText("Scrolling")}>
+        <button className={text === "Scrolling" ? "active" : ""} onClick={() => setText("Scrolling")}>
           Scrolling
         </button>
 
-        <button onClick={() => setText("Video Games")}>
+        <button className={text === "Video Games" ? "active" : ""} onClick={() => setText("Video Games")}>
           Video Games
         </button>
 
-        <button onClick={() => setText("Procrastination")}>
+        <button className={text === "Procrastination" ? "active" : ""} onClick={() => setText("Procrastination")}>
           Procrastination
         </button>
 
-        <button onClick={() => setText("Fast Food")}>
+        <button className={text === "Fast Food" ? "active" : ""} onClick={() => setText("Fast Food")}>
           Fast Food
         </button>
 
-        <button onClick={() => setText("Sugar")}>
+        <button className={text === "Sugar" ? "active" : ""} onClick={() => setText("Sugar")}>
           Sugar
         </button>
 
-        <button onClick={() => setText("Caffeine")}>
+        <button className={text === "Caffeine" ? "active" : ""} onClick={() => setText("Caffeine")}>
           Caffeine
         </button>
 
-        <button onClick={() => setText("Skin Picking")}>
+        <button className={text === "Skin Picking" ? "active" : ""} onClick={() => setText("Skin Picking")}>
           Skin Picking
         </button>
 
       </div>
-
-      <p>
-        Don't see your addiction listed? Enter your own:
-      </p>
 
       <input
         value={text}
@@ -99,10 +79,7 @@ function AddictionSelection({
         placeholder="Enter an addiction..."
       />
 
-      <button
-        onClick={handleSave}
-        className="save-btn"
-      >
+      <button onClick={handleSave} className="save-btn">
         Save Addiction
       </button>
 

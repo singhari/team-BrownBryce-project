@@ -49,7 +49,7 @@ function LoginPage() {
         </div>
       </div>
 
-      {/* LOGIN PANEL */}
+      {/* login card */}
       <div className="login-card">
 
         <h2>Welcome</h2>

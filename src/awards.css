@@ -6,8 +6,7 @@
   font-family: "Inter", "Segoe UI", Arial, sans-serif;
 
   background:
-    radial-gradient(circle at top left, #ddd6fe, transparent 25%),
-    radial-gradient(circle at bottom right, #bfdbfe, transparent 25%),
+
     #f5f7fb;
 }
 
@@ -98,14 +97,14 @@
   margin-bottom: 14px;
 }
 
-/* STAR BACKGROUND (IMPORTANT CHANGE) */
+
 .award-img {
   width: 100%;
   height: 100%;
 
   object-fit: cover;
 
-  /* THIS is the key fix: make it feel like a badge, not a square image */
+  
   clip-path: polygon(
     50% 0%,
     61% 35%,
@@ -119,14 +118,13 @@
     39% 35%
   );
 
-  /* soften edges so it doesn't look blocky */
+  
   transform: scale(0.92);
 
   filter: saturate(1.1) brightness(0.95);
 }
 
 
-/* DAY NUMBER (FIXED READABILITY ISSUE) */
 .award-number {
   position: absolute;
 
@@ -140,7 +138,7 @@
   pointer-events: none;
 }
 
-/* TEXT */
+
 .award-details {
   font-size: 14px;
   font-weight: 600;
@@ -153,7 +151,7 @@
   color: var(--muted);
 }
 
-/* FOOTER */
+
 .awards-footer {
   max-width: 1100px;
   margin: 30px auto 0 auto;

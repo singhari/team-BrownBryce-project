@@ -94,14 +94,14 @@ function Awards({ setPage, name }) {
                   alt="award badge"
                 />
 
-                {/* NUMBER OVERLAY (FIX FOR READABILITY) */}
+                {/* number overlay */}
                 <div className="award-number">
                   {a.day ?? index + 1}
                 </div>
 
               </div>
 
-              {/* TEXT */}
+              {/* text */}
               <div className="award-content">
                 <p className="award-details">
                   {a.details}
@@ -118,7 +118,7 @@ function Awards({ setPage, name }) {
         </div>
       )}
 
-      {/* FOOTER */}
+      {/* footer */}
       <div className="awards-footer">
         <button
           className="primary-btn"

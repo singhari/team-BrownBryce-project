@@ -21,7 +21,6 @@
   align-items: center;
 }
 
-/* header */
 .log-header {
   width: 100%;
   max-width: 1000px;
@@ -52,7 +51,6 @@
   line-height: 1.6;
 }
 
-/* main card */
 .log-card {
   width: 100%;
   max-width: 1000px;
@@ -75,7 +73,6 @@
   box-shadow: 0 18px 40px rgba(0,0,0,0.06);
 }
 
-/* left side */
 .left {
   background: #ffffff;
 
@@ -86,7 +83,7 @@
   border: 1px solid rgba(0,0,0,0.06);
 }
 
-/* question cards */
+
 .question {
   display: flex;
   flex-direction: column;
@@ -144,7 +141,6 @@
   box-shadow: 0 0 0 3px rgba(127,168,102,0.15);
 }
 
-/* right side */
 .right {
   background: linear-gradient(135deg, #7fa866, #6e9658);
 
@@ -161,7 +157,7 @@
   font-size: 14px;
 }
 
-/* buttons */
+
 .log-actions {
   display: flex;
   gap: 12px;
@@ -171,7 +167,7 @@
   flex-wrap: wrap;
 }
 
-/* save buttons */
+
 .save-btn {
   padding: 10px 16px;
 
@@ -197,7 +193,7 @@
   transform: translateY(-2px);
 }
 
-/* buttons */
+
 .small-btn {
   padding: 10px 14px;
 
@@ -262,7 +258,7 @@
   transform: translateY(-2px);
 }
 
-/* mobile */
+
 @media (max-width: 900px) {
   .log-card {
     grid-template-columns: 1fr;
