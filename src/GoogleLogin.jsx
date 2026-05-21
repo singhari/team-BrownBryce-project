@@ -15,7 +15,7 @@ function GoogleLogin() {
   const DelayedComponent = () => {
     const [shouldRender, setShouldRender] = useState(false);
     useEffect(() => {
-      // Set a timer to change state after 2 seconds
+      
       const timer = setTimeout(() => {
         setShouldRender(true);
       }, 2000);  
@@ -39,7 +39,7 @@ function GoogleLogin() {
     }
   
 
-    //also part of the user collection code
+  
     const firebaseUser = auth.currentUser;
     if (!firebaseUser) return;
     const userDocRef = doc(db, 'users', firebaseUser.uid);

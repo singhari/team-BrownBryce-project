@@ -253,3 +253,9 @@ body {
     font-size: 64px;
   }
 }
+
+.active-tab {
+  background-color: #acbd80;
+  color: white;
+  border-radius: 8px;
+}

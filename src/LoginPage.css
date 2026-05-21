@@ -30,7 +30,6 @@
   gap: 60px;
 }
 
-/* LEFT */
 .login-hero {
   flex: 1;
 
@@ -60,7 +59,7 @@
   max-width: 520px;
 }
 
-/* STATS */
+
 .login-stats {
   display: flex;
   gap: 14px;
@@ -92,7 +91,7 @@
   color: #6b7280;
 }
 
-/* RIGHT CARD */
+
 .login-card {
   flex: 0 0 360px;
 
